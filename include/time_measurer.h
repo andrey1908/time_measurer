@@ -32,21 +32,21 @@ class TimeMeasurer {
 };
 
 #define MEASURE_TIME_FROM_HERE(name) \
-  static time_measurer::TimeMeasurer (name ## _time_measurer)(#name, true); \
-  (name ## _time_measurer).StartMeasurement()
+  static time_measurer::TimeMeasurer (time_measurer_ ## name)(#name, true); \
+  (time_measurer_ ## name).StartMeasurement()
 
 #define STOP_TIME_MESUREMENT(name) \
-  (name ## _time_measurer).StopMeasurement()
+  (time_measurer_ ## name).StopMeasurement()
 
 #define MEASURE_BLOCK_TIME(name) \
-  static time_measurer::TimeMeasurer (name ## _time_measurer)(#name, true); \
-  class name ## _time_measurer_stop_trigger_class { \
+  static time_measurer::TimeMeasurer (time_measurer_ ## name)(#name, true); \
+  class time_measurer_stop_trigger_class_ ## name { \
    public: \
-    (name ## _time_measurer_stop_trigger_class)() {}; \
-    (~name ## _time_measurer_stop_trigger_class)() {(name ## _time_measurer).StopMeasurement();}; \
+    (time_measurer_stop_trigger_class_ ## name)() {}; \
+    (~time_measurer_stop_trigger_class_ ## name)() {(time_measurer_ ## name).StopMeasurement();}; \
   }; \
-  name ## _time_measurer_stop_trigger_class    name ## _time_measurer_stop_trigger; \
-  (name ## _time_measurer).StartMeasurement()
+  time_measurer_stop_trigger_class_ ## name    time_measurer_stop_trigger_ ## name; \
+  (time_measurer_ ## name).StartMeasurement()
 
 }  // namespace time_measurer
 
