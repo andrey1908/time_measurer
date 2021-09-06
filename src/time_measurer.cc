@@ -19,8 +19,8 @@ void TimeMeasurer::StartMeasurement() {
 }
 
 void TimeMeasurer::StopMeasurement() {
-  auto stop_time = std::chrono::steady_clock::now();
   absl::MutexLock locker(&mutex_);
+  auto stop_time = std::chrono::steady_clock::now();
   double measured_time = ToSeconds(stop_time - start_time_[pthread_self()]);
   time_measurements_.push_back(measured_time);
 }
