@@ -6,8 +6,7 @@
 #include <vector>
 #include <map>
 #include <string>
-
-#include "absl/synchronization/mutex.h"
+#include <mutex>
 
 namespace time_measurer {
 
@@ -24,7 +23,7 @@ class TimeMeasurer {
   void AddMeasurement(double measured_time);
 
  private:
-  absl::Mutex mutex_;
+  std::mutex mutex_;
   std::string name_;
   bool print_results_on_destruction_;
   std::map<pthread_t, std::chrono::time_point<std::chrono::steady_clock>> start_time_;

@@ -1,8 +1,6 @@
 cmake_minimum_required(VERSION 3.0.2)
 project(time_measurer)
 
-find_package(absl REQUIRED)
-
 include_directories(
   "./include"
 )
@@ -11,25 +9,9 @@ add_library(time_measurer SHARED
   src/time_measurer.cc
 )
 
-target_link_libraries(time_measurer
-  absl::algorithm
-  absl::base
-  absl::debugging
-  absl::flat_hash_map
-  absl::memory
-  absl::meta
-  absl::numeric
-  absl::str_format
-  absl::strings
-  absl::synchronization
-  absl::time
-  absl::utility
-)
-
 add_executable(time_measurer_test src/time_measurer_test.cc)
 
 target_link_libraries(time_measurer_test
-  ${catkin_LIBRARIES}
   time_measurer
 )
 

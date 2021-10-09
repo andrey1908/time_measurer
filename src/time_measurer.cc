@@ -8,31 +8,31 @@ double ToSeconds(const std::chrono::steady_clock::duration duration) {
 }
 
 TimeMeasurer::TimeMeasurer(std::string name="Time measurer", bool print_results_on_destruction=false) {
-  absl::MutexLock locker(&mutex_);
+  std::lock_guard<std::mutex> lock(mutex_);
   name_ = name;
   print_results_on_destruction_ = print_results_on_destruction;
 }
 
 void TimeMeasurer::StartMeasurement() {
-  absl::MutexLock locker(&mutex_);
+  std::lock_guard<std::mutex> lock(mutex_);
   start_time_[pthread_self()] = std::chrono::steady_clock::now();
 }
 
 void TimeMeasurer::StopMeasurement() {
-  absl::MutexLock locker(&mutex_);
+  std::lock_guard<std::mutex> lock(mutex_);
   auto stop_time = std::chrono::steady_clock::now();
   double measured_time = ToSeconds(stop_time - start_time_[pthread_self()]);
   time_measurements_.push_back(measured_time);
 }
 
 void TimeMeasurer::AddMeasurement(double measured_time) {
-  absl::MutexLock locker(&mutex_);
+  std::lock_guard<std::mutex> lock(mutex_);
   start_time_[pthread_self()];
   time_measurements_.push_back(measured_time);
 }
 
 TimeMeasurer::~TimeMeasurer() {
-  absl::MutexLock locker(&mutex_);
+  std::lock_guard<std::mutex> lock(mutex_);
   if (print_results_on_destruction_ && time_measurements_.size()) {
     double total_measured_time = 0.;
     double avarage_time = 0.;
