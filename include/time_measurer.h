@@ -34,7 +34,7 @@ class TimeMeasurer {
   static time_measurer::TimeMeasurer (time_measurer_ ## name)(#name, true); \
   (time_measurer_ ## name).StartMeasurement()
 
-#define STOP_TIME_MESUREMENT(name) \
+#define STOP_TIME_MEASUREMENT(name) \
   (time_measurer_ ## name).StopMeasurement()
 
 #define MEASURE_BLOCK_TIME(name) \
